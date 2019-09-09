@@ -1,0 +1,170 @@
+#+TITLE: Emacs Configuration
+#+AUTHOR: Guillaume Pagnoux
+#+EMAIL: guillaume.pagnoux@epita.fr
+
+* Configure base editor
+
+** Must-have settings
+
+#+BEGIN_SRC emacs-lisp
+  (display-time)
+  (electric-pair-mode)
+  (fset 'yes-or-no-p 'y-or-n-p)
+  (global-font-lock-mode t)
+  (global-linum-mode 1)
+  (menu-bar-mode -1)
+  (scroll-bar-mode -1)
+  (setq column-number-mode t)
+  (setq inhibit-splash-screen t)
+  (setq make-backup-files nil)
+  (setq require-final-newline t)
+  (setq show-pare-delay 0.0)
+  (setq vc-follow-symlinks t)
+  (show-paren-mode t)
+  (tool-bar-mode -1)
+  (setq gdb-many-windows t
+        gdb-show-main t)
+  (setq scroll-step 1
+        scroll-margin 10)
+  (global-hl-line-mode)
+  (setq-default fill-column 80)
+#+END_SRC
+
+** Garbage collector configuration
+
+Allows Emacs to use more memory before calling garbage collection.
+
+#+BEGIN_SRC emacs-lisp
+(setq gc-cons-treshold (lsh 200 20))
+#+END_SRC
+
+** Color scheme
+
+#+BEGIN_SRC emacs-lisp
+(load-theme 'tsdh-dark t)
+#+END_SRC
+
+* Personal information
+
+#+BEGIN_SRC emacs-lisp
+(setq user-full-name "Xavier Loginard"
+      user-mailaddress "xavier.loginard@epita.fr")
+#+END_SRC
+
+* Package management
+
+** Package sources
+
+#+BEGIN_SRC emacs-lisp
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")))
+#+END_SRC
+
+** Configure use-package
+
+#+BEGIN_SRC emacs-lisp
+(package-initialize)
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(require 'use-package)
+(setq use-package-verbose t)
+(setq use-package-always-ensure t)
+(use-package auto-compile
+  :config
+  (auto-compile-on-load-mode))
+(setq load-prefer-newer t)
+#+END_SRC
+
+** Load packages
+
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :ensure t
+    :init (global-company-mode))
+  (use-package company-irony)
+  (use-package company-irony-c-headers)
+  (use-package fic-mode)
+  (use-package flycheck
+    :ensure t
+    :init (global-flycheck-mode))
+  (use-package flycheck-irony)
+  (use-package helm
+    :ensure t
+    :config
+    (require 'helm-config)
+    (helm-mode 1)
+    :bind (("M-x" . helm-M-x)
+           ("C-x C-f" . helm-find-files)))
+  (use-package irony)
+  (use-package magit)
+  (use-package projectile)
+  (use-package rainbow-delimiters)
+  (use-package which-key
+    :ensure t
+    :init
+    (which-key-mode))
+#+END_SRC
+
+* Package specific configuration
+
+** Company-mode
+
+#+BEGIN_SRC emacs-lisp
+(eval-after-load 'company
+  '(add-to-list 'company-backends '(company-irony-c-headers company-irony)))
+#+END_SRC
+
+** Fic-mode
+
+   Enable fic-mode for TODO, FIXME and BUG highlighting
+#+BEGIN_SRC emacs-lisp
+(add-hook 'prog-mode-hook 'fic-mode)
+#+END_SRC
+
+** Rainbow-delimiters
+
+#+BEGIN_SRC emacs-lisp
+(require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+#+END_SRC
+
+
+** Whitespace
+
+Highlight trailing whitespaces
+
+#+BEGIN_SRC emacs-lisp
+(global-whitespace-mode 1)
+(setq-default whitespace-style '(face tab-mark lines-tail trailing))
+#+END_SRC
+
+* Prog-mode configuration
+
+  Delete trailing whitespaces
+  #+BEGIN_SRC emacs-lisp
+    (add-hook 'prog-mode-hook
+              (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
+
+    (add-hook 'text-mode-hook
+              (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
+  #+END_SRC
+* C-mode configuration
+
+  Indentation: 2 spaces, aligned braces
+
+  #+BEGIN_SRC emacs-lisp
+    (setq-default c-default-style "linux"
+                  c-basic-offset 4
+                  indent-tabs-mode nil)
+  #+END_SRC
+
+  Enabling irony-mode and flycheck
+  #+BEGIN_SRC emacs-lisp
+(add-hook 'c++-mode-hook 'irony-mode)
+(add-hook 'c-mode-hook 'irony-mode)
+
+(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+(eval-after-load 'flycheck
+  '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+  #+END_SRC
