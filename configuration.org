@@ -217,10 +217,10 @@ Allows Emacs to use more memory before calling garbage collection.
 If you love =Vim= but also love =Emacs=: use both!
 
 #+begin_src emacs-lisp
-(use-package evil
-  :init
-  (evil-mode 1))
-(use-package evil-magit)
+;(use-package evil
+;  :init
+;  (evil-mode 1))
+;(use-package evil-magit)
 #+end_src
 
 Just uncomment the above.
@@ -236,22 +236,23 @@ Highlight trailing whitespaces
 
 * Prog-mode configuration
 
-  Delete trailing whitespaces
-  #+BEGIN_SRC emacs-lisp
-    (add-hook 'prog-mode-hook
-              (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
+Delete trailing whitespaces
+#+BEGIN_SRC emacs-lisp
+(add-hook 'prog-mode-hook
+          (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
+(add-hook 'prog-mode-hook '#hs-minor-mode)
 
-    (add-hook 'text-mode-hook
-              (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
-  #+END_SRC
+(add-hook 'text-mode-hook
+          (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
+#+END_SRC
 * C-mode configuration
 
 -  Indentation: 4 spaces, aligned braces, to tabs
 
   #+BEGIN_SRC emacs-lisp
-    (setq-default c-default-style "linux"
-                  c-basic-offset 4
-                  indent-tabs-mode nil)
+(setq-default c-default-style "linux"
+              c-basic-offset 4
+              indent-tabs-mode nil)
   #+END_SRC
 
 -  Enabling irony-mode and flycheck

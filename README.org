@@ -20,4 +20,4 @@ require restarting emacs.
 ** Irony-server
 
 In order to have autocompletion and on-the-fly syntax checking, build irony
-server from Emacs with =M-x irony-install-server=
+server from Emacs with =M-x irony-install-server=.
