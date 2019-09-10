@@ -102,6 +102,11 @@ Allows Emacs to use more memory before calling garbage collection.
   (use-package rainbow-delimiters
     :init
     (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+  (use-package smart-mode-line
+    :init
+    (setq sml/no-confirm-load-theme t)
+    (setq rm-blacklist "")
+    (smart-mode-line-enable))
   (use-package which-key
     :init
     (which-key-mode))
