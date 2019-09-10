@@ -90,6 +90,15 @@
 (setq-default fill-column 80)
 #+end_src
 
+- Bind keys for resizing windows
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+(global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "S-C-<down>") 'shrink-window)
+(global-set-key (kbd "S-C-<up>") 'enlarge-window)
+#+end_src
+
 ** Garbage collector configuration
 
 Allows Emacs to use more memory before calling garbage collection.
