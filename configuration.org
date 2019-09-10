@@ -90,6 +90,14 @@
 (setq-default fill-column 80)
 #+end_src
 
+- Bind CTRL SPC to no-break space
+
+#+begin_src emacs-lisp
+(defun insert-nbsp () (interactive)
+  (insert (char-from-name "NO-BREAK SPACE")))
+(global-set-key (kbd "M-SPC") 'insert-nbsp)
+#+end_src
+
 ** Garbage collector configuration
 
 Allows Emacs to use more memory before calling garbage collection.
