@@ -80,10 +80,13 @@ Allows Emacs to use more memory before calling garbage collection.
 
 #+BEGIN_SRC emacs-lisp
   (use-package company
-    :init (global-company-mode))
+    :init
+    (global-company-mode)
+    (add-to-list 'company-backends '(company-irony-c-headers company-irony)))
   (use-package company-irony)
   (use-package company-irony-c-headers)
-  (use-package fic-mode)
+  (use-package fic-mode
+    :init (add-hook 'prog-mode-hook 'fic-mode))
   (use-package flycheck
     :init (global-flycheck-mode))
   (use-package flycheck-irony)
@@ -96,37 +99,15 @@ Allows Emacs to use more memory before calling garbage collection.
   (use-package irony)
   (use-package magit)
   (use-package projectile)
-  (use-package rainbow-delimiters)
+  (use-package rainbow-delimiters
+    :init
+    (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
   (use-package which-key
     :init
     (which-key-mode))
 #+END_SRC
 
-* Package specific configuration
-
-** Company-mode
-
-#+BEGIN_SRC emacs-lisp
-(eval-after-load 'company
-  '(add-to-list 'company-backends '(company-irony-c-headers company-irony)))
-#+END_SRC
-
-** Fic-mode
-
-   Enable fic-mode for TODO, FIXME and BUG highlighting
-#+BEGIN_SRC emacs-lisp
-(add-hook 'prog-mode-hook 'fic-mode)
-#+END_SRC
-
-** Rainbow-delimiters
-
-#+BEGIN_SRC emacs-lisp
-(require 'rainbow-delimiters)
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-#+END_SRC
-
-
-** Whitespace
+* Whitespace mode
 
 Highlight trailing whitespaces
 
