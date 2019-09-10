@@ -16,3 +16,8 @@ git clone https://github.com/Yumasi/simple-emacs-config.git .emacs.d && emacs
 
 Emacs will send fetch and install the required packages. Once it is done, it may
 require restarting emacs.
+
+** Irony-server
+
+In order to have autocompletion and on-the-fly syntax checking, build irony
+server from Emacs with =M-x irony-install-server=

@@ -138,39 +138,52 @@ Allows Emacs to use more memory before calling garbage collection.
 
 ** Load packages
 
-#+BEGIN_SRC emacs-lisp
-  (use-package company
-    :init
-    (global-company-mode)
-    (add-to-list 'company-backends '(company-irony-c-headers company-irony)))
-  (use-package company-irony)
-  (use-package company-irony-c-headers)
-  (use-package fic-mode
-    :init (add-hook 'prog-mode-hook 'fic-mode))
-  (use-package flycheck
-    :init (global-flycheck-mode))
-  (use-package flycheck-irony)
-  (use-package helm
-    :config
-    (require 'helm-config)
-    (helm-mode 1)
-    :bind (("M-x" . helm-M-x)
-           ("C-x C-f" . helm-find-files)))
-  (use-package irony)
-  (use-package magit)
-  (use-package projectile)
-  (use-package rainbow-delimiters
-    :init
-    (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
-  (use-package smart-mode-line
-    :init
-    (setq sml/no-confirm-load-theme t)
-    (setq rm-blacklist "")
-    (smart-mode-line-enable))
-  (use-package which-key
-    :init
-    (which-key-mode))
-#+END_SRC
+#+begin_src emacs-lisp
+(use-package company
+  :init
+  (global-company-mode)
+  (add-to-list 'company-backends '(company-irony-c-headers company-irony)))
+(use-package company-irony)
+(use-package company-irony-c-headers)
+(use-package fic-mode
+  :init (add-hook 'prog-mode-hook 'fic-mode))
+(use-package flycheck
+  :init (global-flycheck-mode))
+(use-package flycheck-irony)
+(use-package helm
+  :config
+  (require 'helm-config)
+  (helm-mode 1)
+  :bind (("M-x" . helm-M-x)
+         ("C-x C-f" . helm-find-files)))
+(use-package irony)
+(use-package magit)
+(use-package projectile)
+(use-package rainbow-delimiters
+  :init
+  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+(use-package smart-mode-line
+  :init
+  (setq sml/no-confirm-load-theme t)
+  (setq rm-blacklist "")
+  (smart-mode-line-enable))
+(use-package which-key
+  :init
+  (which-key-mode))
+#+end_src
+
+* Evil mode
+
+If you love =Vim= but also love =Emacs=: use both!
+
+#+begin_src emacs-lisp
+(use-package evil
+  :init
+  (evil-mode 1))
+(use-package evil-magit)
+#+end_src
+
+Just uncomment the above.
 
 * Whitespace mode
 
@@ -211,6 +224,7 @@ Highlight trailing whitespaces
 (eval-after-load 'flycheck
   '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
   #+END_SRC
+
 * M-x gdb configuration
 
 Enable many-windows mode
