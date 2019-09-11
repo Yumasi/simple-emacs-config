@@ -158,27 +158,44 @@ Allows Emacs to use more memory before calling garbage collection.
 (use-package flycheck
   :init (global-flycheck-mode))
 (use-package flycheck-irony)
+
 (use-package ivy
+  :ensure t
+  :diminish ivy-mode
   :config
-  (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
-  (setq enable-recursive-minibuffers t))
-:bind (("M-x" . helm-M-x)
-       ("\C-s" . swiper)
-       ("C-c C-r" . ivy-resume)
-       ("<f6>" . ivy-resume)
-       ("M-x" . counsel-M-x)
-       ("C-x C-f" . counsel-find-file)
-       ("<f1> f" . counsel-describe-function)
-       ("<f1> v" . counsel-describe-variable)
-       ("<f1> l" . counsel-find-library)
-       ("<f2> i" . counsel-info-lookup-symbol)
-       ("<f2> u" . counsel-unicode-char)
-       ("C-c g" . counsel-git)
-       ("C-c j" . counsel-git-grep)
-       ("C-c k" . counsel-ag)
-       ("C-x l" . counsel-locate)
-       ("C-S-o" . counsel-rhythmbox)))
+  (setq enable-recursive-minibuffers t)
+  (setq ivy-re-builders-alist
+	'((ivy-bibtex . ivy--regex-ignore-order)
+	  (swiper . ivy--regex-plus)
+	  (t . ivy--regex-fuzzy)))
+  :hook
+  (after-init . (lambda () (ivy-mode t)))
+  :bind
+  (("M-x" . counsel-M-x)
+  ("\C-s" . swiper)
+  ("C-c C-r" . ivy-resume)
+  ("<f6>" . ivy-resume)
+  ("M-x" . counsel-M-x)
+  ("C-x C-f" . counsel-find-file)
+  ("<f1> f" . counsel-describe-function)
+  ("<f1> v" . counsel-describe-variable)
+  ("<f1> l" . counsel-find-library)
+  ("<f2> i" . counsel-info-lookup-symbol)
+  ("<f2> u" . counsel-unicode-char)
+  ("C-c g" . counsel-git)
+  ("C-c j" . counsel-git-grep)
+  ("C-c k" . counsel-ag)
+  ("C-x l" . counsel-locate)
+  ("C-S-o" . counsel-rhythmbox)))
+
+(use-package counsel
+  :ensure t
+  :after ivy
+  :diminish counsel-mode
+  :hook
+  (after-init . counsel-mode))
+
 (use-package irony)
 (use-package magit)
 (use-package projectile)
