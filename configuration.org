@@ -158,10 +158,11 @@ Allows Emacs to use more memory before calling garbage collection.
 (use-package flycheck
   :init (global-flycheck-mode))
 (use-package flycheck-irony)
-
 (use-package ivy
   :ensure t
   :diminish ivy-mode
+  :init
+  (ivy-mode t)
   :config
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
@@ -169,8 +170,6 @@ Allows Emacs to use more memory before calling garbage collection.
 	'((ivy-bibtex . ivy--regex-ignore-order)
 	  (swiper . ivy--regex-plus)
 	  (t . ivy--regex-fuzzy)))
-  :hook
-  (after-init . (lambda () (ivy-mode t)))
   :bind
   (("M-x" . counsel-M-x)
   ("\C-s" . swiper)
